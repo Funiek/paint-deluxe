@@ -9,12 +9,9 @@
 
         public override void Draw(Graphics g, Pen p)
         {
-            // Jezeli dlugosc jest wieksza niz wysokosc
-            if (Math.Abs(point2.X - point1.X) > Math.Abs(point2.Y - point1.Y))
-                g.DrawEllipse(p, point1.X - Math.Abs(point2.X - point1.X), point1.Y - Math.Abs(point2.X - point1.X), Math.Abs((point2.X - point1.X) * 2), Math.Abs((point2.X - point1.X) * 2));
-            // Jezeli szerokosc jest wieksza niz dlugosc
-            else
-                g.DrawEllipse(p, point1.X - Math.Abs(point2.Y - point1.Y), point1.Y - Math.Abs(point2.Y - point1.Y), Math.Abs((point2.Y - point1.Y) * 2), Math.Abs((point2.Y - point1.Y) * 2));
+            // c2  = a2 + b2
+            double radius = Math.Sqrt(Math.Pow(point2.X - point1.X, 2) + Math.Pow(point2.Y - point1.Y, 2));
+            g.DrawEllipse(p, point1.X - (int)radius, point1.Y - (int)radius, (int)radius * 2, (int)radius * 2);
         }
     }
 }
