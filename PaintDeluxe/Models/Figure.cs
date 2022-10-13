@@ -4,8 +4,10 @@ namespace PaintDeluxe.Models
 {
     public class Figure : IFigure
     {
-        protected Point point1 { get; set; }
-        protected Point point2 { get; set; }
+        public Point point1 { get; set; }
+        public Point point2 { get; set; }
+
+        public Figure() { }
 
         public Figure(Point p1, Point p2)
         {

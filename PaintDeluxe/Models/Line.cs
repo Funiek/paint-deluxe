@@ -2,6 +2,7 @@
 {
     public class Line : Figure
     {
+        public Line() : base() { }
         public Line(Point p1, Point p2) : base(p1, p2)
         {
         }
