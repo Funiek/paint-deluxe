@@ -1,22 +1,21 @@
 using PaintDeluxe.Interfaces;
 using PaintDeluxe.Models;
+using PaintDeluxe.Utils;
+using System.Drawing.Imaging;
 
 namespace PaintDeluxe
 {
     public partial class Form1 : Form
     {
-        private Bitmap _bitmap;
+        private Bitmap? _bitmap;
         private Graphics _graphics;
         private Pen _pen;
         private IFigure _figure;
-        private Point _firstClick;
-        private Point _lastClick;
         public Form1()
         {
             InitializeComponent();
 
             _bitmap = new Bitmap(890, 521);
-
             _graphics = Graphics.FromImage(_bitmap);
             pictureBox.Image = _bitmap;
 
@@ -41,12 +40,24 @@ namespace PaintDeluxe
 
         private void zapiszBtn_Click(object sender, EventArgs e)
         {
+            if (_bitmap != null)
+            {
+                FileHandler.SaveBitmap(_bitmap);
 
+                _bitmap = new Bitmap(890, 521);
+                _graphics = Graphics.FromImage(_bitmap);
+                pictureBox.Image = _bitmap;
+            }
+                
         }
 
         private void wczytajBtn_Click(object sender, EventArgs e)
         {
+            _bitmap = FileHandler.LoadBitmap();
+            if (_bitmap == null) return;
 
+            _graphics = Graphics.FromImage(_bitmap);
+            pictureBox.Image = _bitmap;
         }
 
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
@@ -56,7 +67,7 @@ namespace PaintDeluxe
             {
                 // Jezeli figura zawiera zainicjalizowany ktorys punkt to utworz nowa figure
                 if (!_figure.point1.IsEmpty || !_figure.point2.IsEmpty) 
-                    createNewFigure();
+                    CreateNewFigure();
 
                 _figure.point1 = new Point(e.Location.X, e.Location.Y);
             }
@@ -69,7 +80,7 @@ namespace PaintDeluxe
             }
         }
 
-        private void createNewFigure()
+        private void CreateNewFigure()
         {
             if (_figure is Line) _figure = new Line();
             else if (_figure is Rect) _figure = new Rect();
